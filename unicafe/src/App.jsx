@@ -8,22 +8,28 @@ const Button = (props) => {
   )
 }
 
-const DisplayValue = (props) => {
-  return (
-    <>
-      <p>{props.name} {props.value}</p>
-    </>
-  )
-}
+const StatisticLine = ({name, value}) => {
+  if(name != "positive") {
+    return (
+      <>
+        <tr>
+          <th>{name}</th> 
+          <td>{value}</td>
+        </tr>
+      </>
+    )
+  } else {
+    return (
+      <>
+        <tr>
+          <th>{name}</th> 
+          <td>{value*100}%</td>
+        </tr>
+      </>
+    )
+  }
 
-const DisplayPercentage = (props) => {
-  return (
-    <>
-      <p>{props.name} {props.value * 100}%</p>
-    </>
-  )
 }
-
 const Statistics = ({ good, neutral, bad, all, avg, pos }) => {
   if (all === 0) {
     return <p>No feedback given</p>
@@ -31,12 +37,15 @@ const Statistics = ({ good, neutral, bad, all, avg, pos }) => {
 
   return (
     <div>
-      <DisplayValue name="good" value={good}/>
-      <DisplayValue name="neutral" value={neutral}/>
-      <DisplayValue name="bad" value={bad}/>
-      <DisplayValue name="all" value={all}/>
-      <DisplayValue name="average" value={avg}/>
-      <DisplayPercentage name="positive" value={pos}/>
+      <table>
+        <StatisticLine name="good" value={good}/>
+        <StatisticLine name="neutral" value={neutral}/>
+        <StatisticLine name="bad" value={bad}/>
+        <StatisticLine name="all" value={all}/>
+        <StatisticLine name="average" value={avg}/>
+        <StatisticLine name="positive" value={pos}/>
+      </table>
+      
     </div>
   )
 }

@@ -22,10 +22,19 @@ const App = () => {
     setSelected(getRandomInt(8))
     console.log(selected)
   }
+  const [ratings, setRatings] = useState([0, 0, 0, 0, 0, 0, 0, 0])
+  const updateRatings = () => {
+    const newRatings = [...ratings]
+    newRatings[selected] += 1
+    setRatings(newRatings)
+  }
+
 
   return (
     <div>
       <p>{anecdotes[selected]}</p>
+      <p>has {ratings[selected]} votes</p>
+      <button onClick={updateRatings}>vote</button>
       <button onClick={randomSelected}>next anecdote</button>
       
     </div>

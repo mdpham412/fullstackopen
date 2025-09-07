@@ -68,7 +68,6 @@ const App = () => {
     setNewNumber(event.target.value)
   const handleSearchTermChange = (event) =>
     setSearchTerm(event.target.value)
-
   const addEntry = (event) => {
     event.preventDefault()
 

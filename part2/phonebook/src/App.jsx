@@ -14,7 +14,15 @@ const Filter = ({searchTerm, setSearchTerm}) => {
       </div>
   )
 }
-const Persons = ({persons, searchTerm}) => {
+const Persons = ({persons, searchTerm, handleDelete}) => {
+  const handleConfirm = (elem) => {
+    console.log(elem)
+    if (window.confirm(`delete ${elem.name}?`)) {
+      handleDelete(elem.id)
+    }
+  }
+
+
   return (
     <div>
       <div>
@@ -22,6 +30,7 @@ const Persons = ({persons, searchTerm}) => {
           entry.name.toLowerCase().includes(searchTerm.toLowerCase())
           ? <div key={entry.id}>
             {entry.name}: {entry.number}
+            <button onClick={() => handleConfirm(entry)}>delete</button>
           </div> 
           : <div></div>
         ))}
@@ -57,9 +66,16 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
-  personService.getAllPerson().then(r => {
-    setPersons(r)
-  })
+  useEffect(() => {
+    personService.getAllPerson().then(r => {
+      setPersons(r)
+    })
+  }, [])
+  const handleDelete = (id) => {
+    personService.deletePerson(id).then(() => {
+      setPersons(persons.filter(p => p.id !== id))
+    })
+  }
   const handleNameChange = (event) => 
     setNewName(event.target.value)
   const handleNumberChange = (event) => 
@@ -102,7 +118,7 @@ const App = () => {
       />
 
       <h3>Numbers</h3>
-      <Persons persons={persons} searchTerm={searchTerm}></Persons>
+      <Persons persons={persons} searchTerm={searchTerm} handleDelete={handleDelete}></Persons>
     </div>
   )
 }

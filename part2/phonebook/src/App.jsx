@@ -90,7 +90,12 @@ const App = () => {
     )
 
     if (found) {
-      alert(`${newName} is already added to phonebook`)
+      if (window.confirm(`${newName} is already added to phonebook, replace old number with a new one?`)) {
+        personService.updatePerson(found.id, { ...found, number: newNumber }).then(() => {
+          setPersons(persons.map(p => p.id === found.id ? { ...p, number: newNumber } : p))
+        })
+      }
+      
       return
     }
 
